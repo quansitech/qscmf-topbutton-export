@@ -1,0 +1,29 @@
+{
+  "name": "quansitech/qscmf-topbutton-export",
+  "description": "qscmf listbuilder topbutton",
+  "type": "library",
+  "keywords": ["thinkphp", "admin", "component", "listbuilder", "qscmf"],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "tiderjian",
+      "email": "tider_yatsen@hotmail.com"
+    }
+  ],
+  "require": {
+      "php": ">=7.2.0",
+      "tiderjian/think-core": "dev-dev"
+  },
+  "autoload": {
+    "psr-4": {
+      "Qs\\TopButton\\": "src/"
+    }
+  },
+  "extra": {
+    "qscmf": {
+      "providers": [
+        "Qs\\TopButton\\ExportProvider"
+      ]
+    }
+  }
+}
