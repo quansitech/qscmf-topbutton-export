@@ -17,9 +17,8 @@ class Export extends ButtonType{
             $option['attribute'] = array_merge($my_attribute, $option['attribute']);
         }
 
-        $gid = Str::uuid();
-        $gid = str_repeat('-', '', $gid);
-        $option['attribute']['id'] = 'modal-' . $gid;
+        $gid = Str::uuid()->getHex();
+        $option['attribute']['id'] = $gid;
 
         $view = new View();
         $view->assign('gid', $gid);
