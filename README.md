@@ -92,6 +92,7 @@ $builder->addTopButton('export', array('export_cols' => $cols_options, 'title' =
 
 ```
 
+
 导出数据为多张工作表  
 ```php
  $export_arr = [
@@ -101,8 +102,17 @@ $builder->addTopButton('export', array('export_cols' => $cols_options, 'title' =
  
  $builder->addTopButton('export', ['data-url' => json_encode($export_arr), 'data-filename' => '导出列表', 'data-streamrownum' => intval($export_arr[0]['rownum'])]);
 ```
+
 业务层错误提示
 ```php
-可在导出数据处理的action位置进行错误验证，使用$this->errro("test") 抛出错误
+可在导出数据处理的action位置进行错误验证，使用$this->errro("test")
 插件可自动获取错误信息并alert提示用户
+```
+
++ 辅助方法
+
+```php
+1. genExportCols($col_options, $selected_cols)  
+   col_options  导出设置
+   selected_cols  I('post.exportCol')从前端获取的导出列数据
 ```
