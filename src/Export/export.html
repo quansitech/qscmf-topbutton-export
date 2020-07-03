@@ -61,12 +61,12 @@
       var ids = $(".check-all").data('checkedIds');
 
       for (var i = 0; i< url.length; i++){
-        if (url[i].url.indexOf('?') > 0) {
-          url[i].url += '&' + query;
-        } else {
-          url[i].url += '?' + query;
+        if (query){
+          url[i].url += url[i].url.indexOf('?') > 0? '&' + query: '?' + query;
         }
-        url[i].url = ids ? url[i].url + '&ids=' + ids : url[i].url;
+        if (ids){
+          url[i].url +=  url[i].url.indexOf('?') > 0? '&ids=' + ids: '?ids=' + ids;
+        }
       }
 
       var btn = this;
