@@ -57,7 +57,9 @@
         this.execCount === 0 && this.makeExcel();
     }
 
-    ExportExcel.prototype.fetchFun = function(page, streamRownum=0, type, index=0){
+    ExportExcel.prototype.fetchFun = function(page, streamRownum, type, index){
+        streamRownum = streamRownum || 0;
+        index = index || 0;
         var obj = this;
         var fetch_url = '';
         var init = {};
