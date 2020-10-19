@@ -36,13 +36,20 @@
     }
 
     ExportExcel.prototype.saveAs = function(obj, fileName){
-        var tmpa = document.createElement("a");
-        tmpa.download = fileName || "下载";
-        tmpa.href = URL.createObjectURL(obj);
-        tmpa.click();
-        setTimeout(function () {
-            URL.revokeObjectURL(obj);
-        }, 100);
+        if('msSaveOrOpenBlob' in navigator){
+            // Microsoft Edge and Microsoft Internet Explorer 10-11
+            window.navigator.msSaveOrOpenBlob(obj, fileName);
+        } else {
+            // standard code for Google Chrome, Mozilla Firefox etc
+            var tmpa = document.createElement("a");
+            tmpa.download = fileName || "下载";
+            tmpa.href = URL.createObjectURL(obj); //绑定a标签
+            tmpa.click(); //模拟点击实现下载
+            //延时释放
+            setTimeout(function () {
+                URL.revokeObjectURL(obj); //用URL.revokeObjectURL()来释放这个object URL
+            }, 100);
+        }
     }
 
     ExportExcel.prototype.generateExcelBlob = function(){
