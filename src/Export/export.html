@@ -53,9 +53,7 @@
       var filename = $(this).data('filename');
       var query = $('.builder-list-box .search-input').serialize();
       query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g, '');
-      console.log(query);
       query = query.replace(/(^&)/g, '');
-    console.log(query);
 
       if (typeof url === 'string'){
         url=[{sheetName:'Sheet1',url:url}];
