@@ -41,8 +41,8 @@ trait ExportExcelByXlsx{
             collect($header_mapping)->each(function($name_item, $name_key) use ($data, &$new_list) {
                 $new_list[$name_item] = $data[$name_key];
             });
-            if (isset($data['cellProperties'])){
-                $new_list['cellProperties'] = $this->transcodeOneCellProperties($data['cellProperties'], $header_mapping);;
+            if (isset($data['_cellProperties'])){
+                $new_list['_cellProperties'] = $this->transcodeOneCellProperties($data['_cellProperties'], $header_mapping);;
             }
             return $new_list;
         })->toArray();

@@ -20,7 +20,7 @@
         this.wb = { SheetNames: [], Sheets: {}, Props: {} };
         this.execCount = this.options.url.length;
         this.progressNum = 0;
-        this.cellPropertiesKey = 'cellProperties';
+        this.cellPropertiesKey = '_cellProperties';
         this.cellPropertiesValues = [];
     }
 
