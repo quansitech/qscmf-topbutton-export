@@ -136,16 +136,22 @@ cellProperties 包括 rowSpan colSpan值，为0表示被合并的单元格
   
   // 设置每一行的 cellProperties 
   $source_data = [
-    ['name' => 'name1','nick_name' => 'nick_name1','phone' => 'phone1','tel' => 'tel1', 'cellProperties' => ['name' => '','nick_name' => '','phone' => '','tel' => '']],
-    ['name' => 'name2','nick_name' => 'nick_name2','phone' => 'phone2','tel' => 'tel2', 'cellProperties' => ['name' => ['rowSpan' => 2],'nick_name' => '','phone' => ['colSpan' => 2],'tel' => ['colSpan' => 0]]],
-    ['name' => 'name3','nick_name' => 'nick_name3','phone' => 'phone3','tel' => 'tel3', 'cellProperties' => ['name' => ['rowSpan' => 0],'nick_name' => '','phone' => '','tel' => '']],
+    ['name' => 'name1','nick_name' => 'nick_name1','phone' => 'phone1','tel' => 'tel1', 
+     'cellProperties' => ['name' => '','nick_name' => '','phone' => '','tel' => '']],
+    ['name' => 'name2','nick_name' => 'nick_name2','phone' => 'phone2','tel' => 'tel2',
+     'cellProperties' => ['name' => ['rowSpan' => 2],'nick_name' => '','phone' => ['colSpan' => 2],'tel' => ['colSpan' => 0]]],
+    ['name' => 'name3','nick_name' => 'nick_name3','phone' => 'phone3','tel' => 'tel3', 
+     'cellProperties' => ['name' => ['rowSpan' => 0],'nick_name' => '','phone' => '','tel' => '']],
   ];
   
   // 导出的数据格式为 
   $export_data = [
-    ['表头字段1' => 'name1','表头字段2' => 'nick_name1','表头字段3' => 'phone1','表头字段4' => 'tel1', 'cellProperties' => ['表头字段1' => '','表头字段2' => '','表头字段3' => '','表头字段4' => '']],
-    ['表头字段1' => 'name2','表头字段2' => 'nick_name2','表头字段3' => 'phone2','表头字段4' => 'tel2', 'cellProperties' => ['表头字段1' => ['rowSpan' => 2],'表头字段2' => '','表头字段3' => ['colSpan' => 2],'表头字段4' => ['colSpan' => 0]]],
-    ['表头字段1' => 'name3','表头字段2' => 'nick_name3','表头字段3' => 'phone3','表头字段4' => 'tel3', 'cellProperties' => ['表头字段1' => ['rowSpan' => 0],'表头字段2' => '','表头字段3' => '','表头字段4' => '']],
+    ['表头字段1' => 'name1','表头字段2' => 'nick_name1','表头字段3' => 'phone1','表头字段4' => 'tel1', 
+     'cellProperties' => ['表头字段1' => '','表头字段2' => '','表头字段3' => '','表头字段4' => '']],
+    ['表头字段1' => 'name2','表头字段2' => 'nick_name2','表头字段3' => 'phone2','表头字段4' => 'tel2', 
+     'cellProperties' => ['表头字段1' => ['rowSpan' => 2],'表头字段2' => '','表头字段3' => ['colSpan' => 2],'表头字段4' => ['colSpan' => 0]]],
+    ['表头字段1' => 'name3','表头字段2' => 'nick_name3','表头字段3' => 'phone3','表头字段4' => 'tel3', 
+     'cellProperties' => ['表头字段1' => ['rowSpan' => 0],'表头字段2' => '','表头字段3' => '','表头字段4' => '']],
   ];
  
   // 原始数据与导出数据的差异为 每一行数据的键名不同
@@ -160,7 +166,8 @@ cellProperties 包括 rowSpan colSpan值，为0表示被合并的单元格
   
   $export_data = $this->combineListWithNameMapping($source_data, $header_mapping);
   
-  // 导出效果如图所示
   ```
+  导出效果如图所示 
+  
   ![合并表格效果](https://user-images.githubusercontent.com/35066497/192722889-16e62813-7ca8-4f10-89aa-1efd8768f23e.png)
 
