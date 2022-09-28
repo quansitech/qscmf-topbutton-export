@@ -109,10 +109,58 @@ $builder->addTopButton('export', array('export_cols' => $cols_options, 'title' =
 插件可自动获取错误信息并alert提示用户
 ```
 
-+ 辅助方法
+导出辅助类
 
-```php
-1. genExportCols($col_options, $selected_cols)  
-   col_options  导出设置
-   selected_cols  I('post.exportCol')从前端获取的导出列数据
+[ExportExcelByXlsx使用说明](https://github.com/quansitech/qscmf-topbutton-export/blob/master/ExportExcelByXlsx.md)
+
+
+导出有合并单元格的表格
+```text
+每一行数据添加字段 cellProperties 来配置对应的单元格需要合并的范围。
+
+cellProperties 包括 rowSpan colSpan值，为0表示被合并的单元格
 ```
+
++ 用法
+  ```php
+  // 原始数据为
+  $source_data = [
+    ['name' => 'name1','nick_name' => 'nick_name1','phone' => 'phone1','tel' => 'tel1'],
+    ['name' => 'name2','nick_name' => 'nick_name2','phone' => 'phone2','tel' => 'tel2'],
+    ['name' => 'name3','nick_name' => 'nick_name3','phone' => 'phone3','tel' => 'tel3'],
+  ];
+  
+  // 想要实现的效果
+  // 将第二行的 name 和 第三行的 name 行合并，并展示 第二行 的值； 
+  // 将第二行的 phone 和 tel 列合并，并展示 phone； 
+  
+  // 设置每一行的 cellProperties 
+  $source_data = [
+    ['name' => 'name1','nick_name' => 'nick_name1','phone' => 'phone1','tel' => 'tel1', 'cellProperties' => ['name' => '','nick_name' => '','phone' => '','tel' => '']],
+    ['name' => 'name2','nick_name' => 'nick_name2','phone' => 'phone2','tel' => 'tel2', 'cellProperties' => ['name' => ['rowSpan' => 2],'nick_name' => '','phone' => ['colSpan' => 2],'tel' => ['colSpan' => 0]]],
+    ['name' => 'name3','nick_name' => 'nick_name3','phone' => 'phone3','tel' => 'tel3', 'cellProperties' => ['name' => ['rowSpan' => 0],'nick_name' => '','phone' => '','tel' => '']],
+  ];
+  
+  // 导出的数据格式为 
+  $export_data = [
+    ['表头字段1' => 'name1','表头字段2' => 'nick_name1','表头字段3' => 'phone1','表头字段4' => 'tel1', 'cellProperties' => ['表头字段1' => '','表头字段2' => '','表头字段3' => '','表头字段4' => '']],
+    ['表头字段1' => 'name2','表头字段2' => 'nick_name2','表头字段3' => 'phone2','表头字段4' => 'tel2', 'cellProperties' => ['表头字段1' => ['rowSpan' => 2],'表头字段2' => '','表头字段3' => ['colSpan' => 2],'表头字段4' => ['colSpan' => 0]]],
+    ['表头字段1' => 'name3','表头字段2' => 'nick_name3','表头字段3' => 'phone3','表头字段4' => 'tel3', 'cellProperties' => ['表头字段1' => ['rowSpan' => 0],'表头字段2' => '','表头字段3' => '','表头字段4' => '']],
+  ];
+ 
+  // 原始数据与导出数据的差异为 每一行数据的键名不同
+  // 可以使用辅助函数 combineListWithNameMapping 将 $source_data 转为 $export_data
+  
+  $header_mapping = [
+    'name' => '表头字段1',
+    'nick_name' => '表头字段2',
+    'phone' => '表头字段3',
+    'tel' => '表头字段4',
+  ];
+  
+  $export_data = $this->combineListWithNameMapping($source_data, $header_mapping);
+  
+  // 导出效果如图所示
+  ```
+  ![合并表格效果](https://user-images.githubusercontent.com/35066497/192722889-16e62813-7ca8-4f10-89aa-1efd8768f23e.png)
+
