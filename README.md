@@ -52,7 +52,7 @@ class PostController extends GyListController{
 
 ```
 
-筛选导出列
+#### 筛选导出列
 ```php
 //列配置，default为true表示默认选中状态, required为true表示必选
 $cols_options = [
@@ -93,7 +93,7 @@ $builder->addTopButton('export', array('export_cols' => $cols_options, 'title' =
 ```
 
 
-导出数据为多张工作表  
+#### 导出数据为多张工作表  
 ```php
  $export_arr = [
     ['sheetName' => 'Sheet1', 'url' => U('/admin/post/export'), 'rownum' => '15'],
@@ -103,18 +103,18 @@ $builder->addTopButton('export', array('export_cols' => $cols_options, 'title' =
  $builder->addTopButton('export', ['data-url' => json_encode($export_arr), 'data-filename' => '导出列表', 'data-streamrownum' => intval($export_arr[0]['rownum'])]);
 ```
 
-业务层错误提示
+#### 业务层错误提示
 ```php
 可在导出数据处理的action位置进行错误验证，使用$this->errro("test")
 插件可自动获取错误信息并alert提示用户
 ```
 
-导出辅助类
+#### 导出辅助类
 
 [ExportExcelByXlsx使用说明](https://github.com/quansitech/qscmf-topbutton-export/blob/master/ExportExcelByXlsx.md)
 
 
-导出有合并单元格的表格
+#### 导出有合并单元格的表格
 ```text
 每一行数据添加字段 cellProperties 来配置对应的单元格需要合并的范围。
 
