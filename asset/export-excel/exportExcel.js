@@ -20,6 +20,8 @@
         this.wb = { SheetNames: [], Sheets: {}, Props: {} };
         this.execCount = this.options.url.length;
         this.progressNum = 0;
+        this.cellPropertiesKey = '_cellProperties';
+        this.cellPropertiesValues = [];
     }
 
     ExportExcel.prototype.s2ab = function(s){
@@ -59,9 +61,92 @@
 
     ExportExcel.prototype.pushSheet = function(data, sheetName){
         this.wb.SheetNames.push(sheetName);
-        this.wb.Sheets[sheetName] = xs.utils.json_to_sheet(data);
+        this.wb.Sheets[sheetName] = xs.utils.json_to_sheet(this.filterCellProperties(data));
+        this.wb.Sheets[sheetName]['!merges'] = this.genMerges(this);
         this.execCount--;
         this.execCount === 0 && this.makeExcel();
+    }
+
+    ExportExcel.prototype.filterCellProperties = function (data) {
+        let obj = this;
+        let newData = [];
+        newData = Object.assign(newData, data);
+        for (let key in newData){
+            let itemCell = [];
+            if(obj.hasCellProperties(obj, newData[key]) === true){
+               itemCell = newData[key][obj.cellPropertiesKey];
+                delete newData[key][obj.cellPropertiesKey];
+            }
+            obj.cellPropertiesValues[key] = itemCell;
+        }
+        return newData;
+    }
+
+    ExportExcel.prototype.hasCellProperties = (obj, data) => {
+        return Object.hasOwn(data, obj.cellPropertiesKey);
+    }
+
+    ExportExcel.prototype.genMerges = (obj) => {
+        let merges = [];
+        const cellProVal = obj.cellPropertiesValues;
+        for (let row_key in cellProVal){
+            row_key = parseInt(row_key);
+            const rowItem = cellProVal[row_key];
+            if (rowItem){
+                Object.keys(rowItem).forEach((columnName,index) => {
+                    const cellItem = rowItem[columnName]
+                    if (obj.hasSetMerge(cellItem)){
+                        // 第一行为表头，所以数据要加1
+                        const rowNum = row_key+1;
+                        const start = {r:rowNum, c:index};
+                        const end = {r:obj.genCellNum(rowNum, cellItem, 'rowSpan'),c:obj.genCellNum(index, cellItem, 'colSpan')};
+                        merges.push({s:start,e:end})
+                    }
+                });
+            }
+        }
+
+        return merges;
+    }
+
+    ExportExcel.prototype.genCellNum = (cellKey, cellPro, type) => {
+        if (Object.hasOwn(cellPro, type)){
+            let typeSpan = parseInt(cellPro[type]);
+            return typeSpan <= 1 ? cellKey : cellKey+typeSpan-1;
+        }
+        return cellKey;
+    }
+
+    ExportExcel.prototype.hasSetMerge = (data) => {
+        if (!data){
+            return false;
+        }
+
+        if (!Object.hasOwn(data, 'rowSpan')
+            && !Object.hasOwn(data, 'colSpan')){
+            return false;
+        }
+
+        if (Object.hasOwn(data, 'rowSpan')
+            && !Object.hasOwn(data, 'colSpan')
+            && (parseInt(data.rowSpan) <= 1)){
+            return false;
+        }
+
+        if (Object.hasOwn(data, 'colSpan')
+            && !Object.hasOwn(data, 'rowSpan')
+            && (parseInt(data.colSpan) <= 1)){
+            return false;
+        }
+
+        if (Object.hasOwn(data, 'colSpan')
+            && Object.hasOwn(data, 'rowSpan')
+            && (parseInt(data.colSpan) <= 1)
+            && (parseInt(data.rowSpan) <= 1)){
+            return false;
+        }
+
+        return true;
     }
 
     ExportExcel.prototype.fetchFun = function(page, streamRownum, type, index){
