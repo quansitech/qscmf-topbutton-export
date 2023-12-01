@@ -8,7 +8,7 @@ use Think\View;
 
 class Export extends ButtonType{
 
-    public function build(array &$option, ListBuilder $listBuilder){
+    public function build(array &$option, ?ListBuilder $listBuilder){
         $my_attribute['type'] = 'export';
         $my_attribute['title'] = '导出excel';
         $my_attribute['target-form'] = 'ids';
