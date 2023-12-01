@@ -3,11 +3,12 @@ namespace Qs\TopButton\Export;
 
 use Illuminate\Support\Str;
 use Qscmf\Builder\ButtonType\ButtonType;
+use Qscmf\Builder\ListBuilder;
 use Think\View;
 
 class Export extends ButtonType{
 
-    public function build(array &$option){
+    public function build(array &$option, ListBuilder $listBuilder){
         $my_attribute['type'] = 'export';
         $my_attribute['title'] = '导出excel';
         $my_attribute['target-form'] = 'ids';
